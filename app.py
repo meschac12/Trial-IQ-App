@@ -19,18 +19,17 @@ st.markdown("### Multi-Scout Evaluation & Decision Support")
 st.markdown("---")
 
 # ---------------------------
-# RESET BUTTON (TOP OF APP)
+# RESET BUTTON (CORRECT PLACE)
 # ---------------------------
 
-import os
-
-if st.button("🗑️ Reset All Data"):
-    if os.path.exists(file):
-        os.remove(file)
-        st.success("All data has been reset!")
-        st.experimental_rerun()
-    else:
-        st.warning("No data file found.")
+with st.sidebar:
+    st.markdown("### ⚙️ Controls")
+    if st.button("🗑️ Reset All Data"):
+        if os.path.exists(file):
+            os.remove(file)
+            st.success("All data has been reset!")
+        else:
+            st.warning("No data file found.")
 
 # ---------------------------
 # INPUT SECTION
