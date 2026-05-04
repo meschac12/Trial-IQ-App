@@ -2,17 +2,35 @@ import streamlit as st
 import pandas as pd
 import os
 
-st.set_page_config(page_title="Trial-IQ", layout="wide")
+st.set_page_config(page_title="TrialIQ", layout="wide")
+
+# ---------------------------
+# FILE SETUP
+# ---------------------------
+
+file = "trial_data.csv"  # <-- make sure this matches your file name
 
 # ---------------------------
 # HEADER
 # ---------------------------
 
-st.markdown("## ⚽ Trial-IQ")
+st.markdown("## ⚽ TrialIQ")
 st.markdown("### Multi-Scout Evaluation & Decision Support")
 st.markdown("---")
 
-file = "datatrial.csv"
+# ---------------------------
+# RESET BUTTON (TOP OF APP)
+# ---------------------------
+
+import os
+
+if st.button("🗑️ Reset All Data"):
+    if os.path.exists(file):
+        os.remove(file)
+        st.success("All data has been reset!")
+        st.experimental_rerun()
+    else:
+        st.warning("No data file found.")
 
 # ---------------------------
 # INPUT SECTION
@@ -65,7 +83,7 @@ if st.button("Submit Evaluation"):
         st.success("Evaluation submitted!")
 
 # ---------------------------
-# LOAD DATA
+# LOAD + DISPLAY DATA
 # ---------------------------
 
 if os.path.exists(file):
@@ -114,23 +132,22 @@ if os.path.exists(file):
         else:
             decision = "❌ Unlikely to Progress"
 
-        # ---------------------------
-        # DISPLAY METRICS (Cleaner UI)
-        # ---------------------------
-
+        # DISPLAY METRICS
         col1, col2, col3 = st.columns(3)
 
         col1.metric("Average Score", f"{avg_total:.2f}")
         col2.metric("Agreement", agreement)
         col3.metric("Variance", f"{overall_variance:.2f}")
 
-        # Recommendation
         st.markdown(f"### 📌 Recommendation: {decision}")
 
-        # Highlight disagreement areas
+        # Highlight disagreement
         problem_areas = variance_per_attribute[variance_per_attribute > 1]
 
         if not problem_areas.empty:
             st.error(f"Disagreement in: {list(problem_areas.index)}")
 
         st.markdown("---")
+
+else:
+    st.info("No data available yet. Start by submitting an evaluation.")
