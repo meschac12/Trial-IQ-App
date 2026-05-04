@@ -14,7 +14,7 @@ file = "trial_data.csv"  # <-- make sure this matches your file name
 # HEADER
 # ---------------------------
 
-st.markdown("## ⚽ TrialIQ")
+st.markdown("## ⚽ Trial-IQ")
 st.markdown("### Multi-Scout Evaluation & Decision Support")
 st.markdown("---")
 
